@@ -1,8 +1,8 @@
-# node-geocoder
+# For Bringgsters:
+This branch is based on `node-geocoder` v3.27.0, the version we use internally - and we didn't upgrade, because of incidents.
+It's adding extra feature for passing postal_code_suffix.
 
-[![Build Status](https://img.shields.io/travis/nchaulet/node-geocoder.svg?style=flat-square)](https://travis-ci.org/nchaulet/node-geocoder)
-![Dependencycy status](https://img.shields.io/david/nchaulet/node-geocoder.svg?style=flat-square)
-[![npm version](https://img.shields.io/npm/v/node-geocoder.svg?style=flat-square)](https://www.npmjs.com/package/node-geocoder)
+# node-geocoder
 
 Node library for geocoding and reverse geocoding. Can be used as a nodejs library
 

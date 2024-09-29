@@ -71,10 +71,10 @@ describe('GoogleGeocoder', () => {
     test('Should accept `language` and `region` as options', () => {
       var mock = sinon.mock(mockedHttpAdapter);
       mock.expects('get').withArgs('https://maps.googleapis.com/maps/api/geocode/json', {
-        address: "1 champs élysée Paris",
-        language: "ru-RU",
-        region: ".de",
-        components: "",
+        address: '1 champs élysée Paris',
+        language: 'ru-RU',
+        region: '.de',
+        components: '',
         sensor: false
       }).once().returns({then: function() {}});
 
@@ -88,7 +88,7 @@ describe('GoogleGeocoder', () => {
     test('Should call httpAdapter get method', () => {
       var mock = sinon.mock(mockedHttpAdapter);
       mock.expects('get').withArgs('https://maps.googleapis.com/maps/api/geocode/json', {
-        address: "1 champs élysée Paris",
+        address: '1 champs élysée Paris',
         sensor: false
       }).once().returns({then: function() {}});
 
@@ -104,9 +104,9 @@ describe('GoogleGeocoder', () => {
       () => {
         var mock = sinon.mock(mockedHttpAdapter);
         mock.expects('get').withArgs('https://maps.googleapis.com/maps/api/geocode/json', {
-          address: "1 champs élysée Paris",
+          address: '1 champs élysée Paris',
           sensor: false,
-          language: "fr"
+          language: 'fr'
         }).once().returns({then: function() {}});
 
         var googleAdapter = new GoogleGeocoder(mockedHttpAdapter, { language: 'fr' });
@@ -122,9 +122,9 @@ describe('GoogleGeocoder', () => {
       () => {
         var mock = sinon.mock(mockedHttpAdapter);
         mock.expects('get').withArgs('https://maps.googleapis.com/maps/api/geocode/json', {
-          address: "1 champs élysée Paris",
+          address: '1 champs élysée Paris',
           sensor: false,
-          region: "fr"
+          region: 'fr'
         }).once().returns({then: function() {}});
 
         var googleAdapter = new GoogleGeocoder(mockedHttpAdapter, { region: 'fr' });
@@ -140,9 +140,9 @@ describe('GoogleGeocoder', () => {
       () => {
         var mock = sinon.mock(mockedHttpAdapter);
         mock.expects('get').withArgs('https://maps.googleapis.com/maps/api/geocode/json', {
-          address: "1 champs élysée Paris",
+          address: '1 champs élysée Paris',
           sensor: false,
-          components: "country:FR|postal_code:75008"
+          components: 'country:FR|postal_code:75008'
         }).once().returns({then: function() {}});
 
         var googleAdapter = new GoogleGeocoder(mockedHttpAdapter);
@@ -162,9 +162,9 @@ describe('GoogleGeocoder', () => {
       () => {
         var mock = sinon.mock(mockedHttpAdapter);
         mock.expects('get').withArgs('https://maps.googleapis.com/maps/api/geocode/json', {
-          address: "1 champs élysée Paris",
+          address: '1 champs élysée Paris',
           sensor: false,
-          components: "postal_code:75008"
+          components: 'postal_code:75008'
         }).once().returns({then: function() {}});
 
         var googleAdapter = new GoogleGeocoder(mockedHttpAdapter);
@@ -181,9 +181,9 @@ describe('GoogleGeocoder', () => {
     test('Should call httpAdapter get method with key if specified', () => {
       var mock = sinon.mock(mockedHttpAdapter);
       mock.expects('get').withArgs('https://maps.googleapis.com/maps/api/geocode/json', {
-        address: "1 champs élysée Paris",
+        address: '1 champs élysée Paris',
         sensor: false,
-        key: "hey-you-guys"
+        key: 'hey-you-guys'
       }).once().returns({then: function() {}});
 
       var googleAdapter = new GoogleGeocoder(mockedHttpAdapter, { apiKey: 'hey-you-guys' });
@@ -195,7 +195,7 @@ describe('GoogleGeocoder', () => {
 
     test('Should return geocoded address', done => {
       var mock = sinon.mock(mockedHttpAdapter);
-      mock.expects('get').once().callsArgWith(2, false, { status: "OK", results: [{
+      mock.expects('get').once().callsArgWith(2, false, { status: 'OK', results: [{
         geometry: {location : {
           lat: 37.386,
           lng: -122.0838
@@ -204,6 +204,7 @@ describe('GoogleGeocoder', () => {
         {types: ['country'], long_name: 'France', short_name: 'Fr' },
         {types: ['locality'], long_name: 'Paris' },
         {types: ['postal_code'], long_name: '75008' },
+        {types: ['postal_code_suffix'], long_name: '12348' },
         {types: ['route'], long_name: 'Champs-Élysées' },
         {types: ['street_number'], long_name: '1' },
         {types: ['administrative_area_level_1'], long_name: 'Île-de-France', short_name: 'IDF'},
@@ -219,30 +220,31 @@ describe('GoogleGeocoder', () => {
       googleAdapter.geocode('1 champs élysées Paris', function(err, results) {
         err.should.to.equal(false);
         results[0].should.to.deep.equal({
-          "latitude"    : 37.386,
-          "longitude"   : -122.0838,
-          "country"     : "France",
-          "city"        : "Paris",
-          "zipcode"     : "75008",
-          "streetName"  : "Champs-Élysées",
-          "streetNumber": "1",
-          "countryCode" : "Fr",
-          "administrativeLevels": {
-            "level1long": "Île-de-France",
-            "level1short": "IDF"
+          'latitude'    : 37.386,
+          'longitude'   : -122.0838,
+          'country'     : 'France',
+          'city'        : 'Paris',
+          'zipcode'     : '75008',
+          'streetName'  : 'Champs-Élysées',
+          'streetNumber': '1',
+          'countryCode' : 'Fr',
+          'administrativeLevels': {
+            'level1long': 'Île-de-France',
+            'level1short': 'IDF'
           },
-          "extra": {
-            "confidence": 0,
-            "premise": null,
-            "subpremise": null,
-            "neighborhood": 'neighborhood',
-            "establishment": null,
-            "googlePlaceId": null
+          'extra': {
+            'confidence': 0,
+            'premise': null,
+            'subpremise': null,
+            'neighborhood': 'neighborhood',
+            'establishment': null,
+            'googlePlaceId': null,
+            'postal_code_suffix': '12348'
           },
-          "formattedAddress": null
+          'formattedAddress': null
         });
 
-        results.raw.should.deep.equal({ status: "OK", results: [{
+        results.raw.should.deep.equal({ status: 'OK', results: [{
           geometry: {location : {
             lat: 37.386,
             lng: -122.0838
@@ -251,6 +253,7 @@ describe('GoogleGeocoder', () => {
           {types: ['country'], long_name: 'France', short_name: 'Fr' },
           {types: ['locality'], long_name: 'Paris' },
           {types: ['postal_code'], long_name: '75008' },
+          {types: ['postal_code_suffix'], long_name: '12348' },
           {types: ['route'], long_name: 'Champs-Élysées' },
           {types: ['street_number'], long_name: '1' },
           {types: ['administrative_area_level_1'], long_name: 'Île-de-France', short_name: 'IDF'},
@@ -311,14 +314,14 @@ describe('GoogleGeocoder', () => {
 
     test('Should handle a not "OK" status', done => {
       var mock = sinon.mock(mockedHttpAdapter);
-      mock.expects('get').once().callsArgWith(2, false, { status: "OVER_QUERY_LIMIT", error_message: "You have exceeded your rate-limit for this API.", results: [] });
+      mock.expects('get').once().callsArgWith(2, false, { status: 'OVER_QUERY_LIMIT', error_message: 'You have exceeded your rate-limit for this API.', results: [] });
 
       var googleAdapter = new GoogleGeocoder(mockedHttpAdapter);
 
       googleAdapter.geocode('1 champs élysées Paris', function(err, results) {
-        err.message.should.to.equal("Status is OVER_QUERY_LIMIT. You have exceeded your rate-limit for this API.");
+        err.message.should.to.equal('Status is OVER_QUERY_LIMIT. You have exceeded your rate-limit for this API.');
 
-        results.raw.should.deep.equal({ status: "OVER_QUERY_LIMIT", error_message: "You have exceeded your rate-limit for this API.", results: [] });
+        results.raw.should.deep.equal({ status: 'OVER_QUERY_LIMIT', error_message: 'You have exceeded your rate-limit for this API.', results: [] });
 
         mock.verify();
         done();
@@ -327,12 +330,12 @@ describe('GoogleGeocoder', () => {
 
     test('Should handle a not "OK" status and no error_message', done => {
       var mock = sinon.mock(mockedHttpAdapter);
-      mock.expects('get').once().callsArgWith(2, false, { status: "INVALID_REQUEST", results: [] });
+      mock.expects('get').once().callsArgWith(2, false, { status: 'INVALID_REQUEST', results: [] });
 
       var googleAdapter = new GoogleGeocoder(mockedHttpAdapter);
 
       googleAdapter.geocode('1 champs élysées Paris', function(err, results) {
-        err.message.should.to.equal("Status is INVALID_REQUEST.");
+        err.message.should.to.equal('Status is INVALID_REQUEST.');
         mock.verify();
         done();
       });
@@ -344,7 +347,7 @@ describe('GoogleGeocoder', () => {
 
         var mock = sinon.mock(mockedHttpAdapter);
 
-        mock.expects('get').once().callsArgWith(2, false, { status: "OK", results: [{
+        mock.expects('get').once().callsArgWith(2, false, { status: 'OK', results: [{
           geometry: {location : {
             lat: 37.386,
             lng: -122.0838
@@ -380,7 +383,7 @@ describe('GoogleGeocoder', () => {
       done => {
 
         var mock = sinon.mock(mockedHttpAdapter);
-        mock.expects('get').once().callsArgWith(2, false, { status: "OK", results: [{
+        mock.expects('get').once().callsArgWith(2, false, { status: 'OK', results: [{
           geometry: {location : {
             lat: 37.386,
             lng: -122.0838
@@ -404,30 +407,31 @@ describe('GoogleGeocoder', () => {
         googleAdapter.geocode('1 champs élysées Paris', function(err, results) {
           err.should.to.equal(false);
           results[0].should.to.deep.equal({
-            "latitude"    : 37.386,
-            "longitude"   : -122.0838,
-            "country"     : "France",
-            "city"        : "Paris",
-            "zipcode"     : "75008",
-            "streetName"  : "Champs-Élysées",
-            "streetNumber": "1",
-            "countryCode" : "Fr",
-            "administrativeLevels": {
-              "level1long": "Île-de-France",
-              "level1short": "IDF"
+            'latitude'    : 37.386,
+            'longitude'   : -122.0838,
+            'country'     : 'France',
+            'city'        : 'Paris',
+            'zipcode'     : '75008',
+            'streetName'  : 'Champs-Élysées',
+            'streetNumber': '1',
+            'countryCode' : 'Fr',
+            'administrativeLevels': {
+              'level1long': 'Île-de-France',
+              'level1short': 'IDF'
             },
-            "extra": {
-              "confidence": 0,
-              "premise": null,
-              "subpremise": null,
-              "neighborhood": null,
-              "establishment": null,
-              "googlePlaceId": null
+            'extra': {
+              'confidence': 0,
+              'premise': null,
+              'subpremise': null,
+              'neighborhood': null,
+              'establishment': null,
+              'googlePlaceId': null,
+              'postal_code_suffix': null
             },
-            "formattedAddress": null
+            'formattedAddress': null
           });
 
-          results.raw.should.deep.equal({ status: "OK", results: [{
+          results.raw.should.deep.equal({ status: 'OK', results: [{
             geometry: {location : {
               lat: 37.386,
               lng: -122.0838
@@ -457,7 +461,7 @@ describe('GoogleGeocoder', () => {
       done => {
 
         var mock = sinon.mock(mockedHttpAdapter);
-        mock.expects('get').once().callsArgWith(2, false, { status: "OK", results: [{
+        mock.expects('get').once().callsArgWith(2, false, { status: 'OK', results: [{
           geometry: {location : {
             lat: 37.386,
             lng: -122.0838
@@ -481,30 +485,31 @@ describe('GoogleGeocoder', () => {
         googleAdapter.geocode('1 champs élysées Paris', function(err, results) {
           err.should.to.equal(false);
           results[0].should.to.deep.equal({
-            "latitude"    : 37.386,
-            "longitude"   : -122.0838,
-            "country"     : "France",
-            "city"        : "Paris",
-            "zipcode"     : "75008",
-            "streetName"  : "Champs-Élysées",
-            "streetNumber": "1",
-            "countryCode" : "Fr",
-            "administrativeLevels": {
-              "level1long": "Île-de-France",
-              "level1short": "IDF"
+            'latitude'    : 37.386,
+            'longitude'   : -122.0838,
+            'country'     : 'France',
+            'city'        : 'Paris',
+            'zipcode'     : '75008',
+            'streetName'  : 'Champs-Élysées',
+            'streetNumber': '1',
+            'countryCode' : 'Fr',
+            'administrativeLevels': {
+              'level1long': 'Île-de-France',
+              'level1short': 'IDF'
             },
-            "extra": {
-              "confidence": 0,
-              "premise": null,
-              "subpremise": null,
-              "neighborhood": null,
-              "establishment": null,
-              "googlePlaceId": null
+            'extra': {
+              'confidence': 0,
+              'premise': null,
+              'subpremise': null,
+              'neighborhood': null,
+              'establishment': null,
+              'googlePlaceId': null,
+              'postal_code_suffix': null
             },
-            "formattedAddress": null
+            'formattedAddress': null
           });
 
-          results.raw.should.deep.equal({ status: "OK", results: [{
+          results.raw.should.deep.equal({ status: 'OK', results: [{
             geometry: {location : {
               lat: 37.386,
               lng: -122.0838
@@ -547,7 +552,7 @@ describe('GoogleGeocoder', () => {
 
     test('Should return geocoded address', done => {
       var mock = sinon.mock(mockedHttpAdapter);
-      mock.expects('get').once().callsArgWith(2, false, { status: "OK", results: [{
+      mock.expects('get').once().callsArgWith(2, false, { status: 'OK', results: [{
         geometry: {location : {
           lat: 40.714232,
           lng: -73.9612889
@@ -571,30 +576,31 @@ describe('GoogleGeocoder', () => {
       googleAdapter.reverse({lat:40.714232,lon:-73.9612889}, function(err, results) {
         err.should.to.equal(false);
         results[0].should.to.deep.equal({
-          "latitude"    : 40.714232,
-          "longitude"   : -73.9612889,
-          "country"     : "United States",
-          "city"        : "Brooklyn",
-          "zipcode"     : "11211",
-          "streetName"  : "Bedford Avenue",
-          "streetNumber": "277",
-          "countryCode" : "US",
-          "administrativeLevels": {
-            "level1long": "État de New York",
-            "level1short": "NY"
+          'latitude'    : 40.714232,
+          'longitude'   : -73.9612889,
+          'country'     : 'United States',
+          'city'        : 'Brooklyn',
+          'zipcode'     : '11211',
+          'streetName'  : 'Bedford Avenue',
+          'streetNumber': '277',
+          'countryCode' : 'US',
+          'administrativeLevels': {
+            'level1long': 'État de New York',
+            'level1short': 'NY'
           },
-          "extra": {
-            "premise": null,
-            "subpremise": null,
-            "neighborhood": null,
-            "establishment": null,
-            "googlePlaceId": null,
-            "confidence": 0
+          'extra': {
+            'premise': null,
+            'subpremise': null,
+            'neighborhood': null,
+            'establishment': null,
+            'googlePlaceId': null,
+            'postal_code_suffix': null,
+            'confidence': 0
           },
-          "formattedAddress": null
+          'formattedAddress': null
         });
 
-        results.raw.should.deep.equal({ status: "OK", results: [{
+        results.raw.should.deep.equal({ status: 'OK', results: [{
           geometry: {location : {
             lat: 40.714232,
             lng: -73.9612889
@@ -624,8 +630,8 @@ describe('GoogleGeocoder', () => {
       () => {
         var mock = sinon.mock(mockedHttpAdapter);
         mock.expects('get').withArgs('https://maps.googleapis.com/maps/api/geocode/json', {
-          latlng: "40.714232,-73.9612889",
-          language: "ru-RU",
+          latlng: '40.714232,-73.9612889',
+          language: 'ru-RU',
           sensor: false,
           result_type: 'country',
           location_type: 'ROOFTOP',
@@ -647,12 +653,12 @@ describe('GoogleGeocoder', () => {
 
     test('Should handle a not "OK" status', done => {
       var mock = sinon.mock(mockedHttpAdapter);
-      mock.expects('get').once().callsArgWith(2, false, { status: "OVER_QUERY_LIMIT", error_message: "You have exceeded your rate-limit for this API.", results: [] });
+      mock.expects('get').once().callsArgWith(2, false, { status: 'OVER_QUERY_LIMIT', error_message: 'You have exceeded your rate-limit for this API.', results: [] });
 
       var googleAdapter = new GoogleGeocoder(mockedHttpAdapter);
 
       googleAdapter.reverse({lat:40.714232,lon:-73.9612889}, function(err, results) {
-        err.message.should.to.equal("Status is OVER_QUERY_LIMIT. You have exceeded your rate-limit for this API.");
+        err.message.should.to.equal('Status is OVER_QUERY_LIMIT. You have exceeded your rate-limit for this API.');
         mock.verify();
         done();
       });
@@ -660,12 +666,12 @@ describe('GoogleGeocoder', () => {
 
     test('Should handle a not "OK" status and no error_message', done => {
       var mock = sinon.mock(mockedHttpAdapter);
-      mock.expects('get').once().callsArgWith(2, false, { status: "INVALID_REQUEST", results: [] });
+      mock.expects('get').once().callsArgWith(2, false, { status: 'INVALID_REQUEST', results: [] });
 
       var googleAdapter = new GoogleGeocoder(mockedHttpAdapter);
 
       googleAdapter.reverse({lat:40.714232,lon:-73.9612889}, function(err, results) {
-        err.message.should.to.equal("Status is INVALID_REQUEST.");
+        err.message.should.to.equal('Status is INVALID_REQUEST.');
         mock.verify();
         done();
       });
@@ -676,10 +682,10 @@ describe('GoogleGeocoder', () => {
       () => {
         var mock = sinon.mock(mockedHttpAdapter);
         mock.expects('get').withArgs('https://maps.googleapis.com/maps/api/geocode/json', {
-          address: "1 champs élysée Paris",
-          client: "raoul",
+          address: '1 champs élysée Paris',
+          client: 'raoul',
           sensor: false,
-          signature: "PW1yyLFH9lN16B-Iw7EXiAeMKX8="
+          signature: 'PW1yyLFH9lN16B-Iw7EXiAeMKX8='
         }).once().returns({then: function() {}});
 
         var googleAdapter = new GoogleGeocoder(mockedHttpAdapter, {clientId: 'raoul', apiKey: 'foo'});
